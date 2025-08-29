@@ -15,7 +15,7 @@ export default function NotFound() {
             </div>
 
             <p className="mt-8 text-gray-400 text-sm">
-                <a href="/">Volte para a página inicial</a> ou confira outras seções.
+                Volte para a página inicial ou confira outras seções.
             </p>
         </main>
     );
