@@ -1,5 +1,6 @@
 // components/Sidebar.tsx
 import { Home, Activity, MapPin, Map, Clock, Users } from "lucide-react";
+import { ItemMenu } from "./item-menu";
 
 const menuDashboard = [
     { name: "Ocupação", icon: <Activity size={18} /> , link: '/ocupacao'},
@@ -14,6 +15,7 @@ const menuAnalitico = [
 ];
 
 export default function MenuSideBar() {
+    
     return (
         <aside className="w-64 h-screen bg-gray-900 text-white p-6 flex flex-col">
             <section className="mb-8">
@@ -21,14 +23,8 @@ export default function MenuSideBar() {
                     Dashboard
                 </h2>
                 <ul className="space-y-2">
-                    {menuDashboard.map((item) => (
-                        <li
-                            key={item.name}
-                            className="flex items-center gap-3 px-4 py-2 rounded-lg hover:bg-gray-800 cursor-pointer transition-colors duration-200"
-                        >
-                            {item.icon}
-                            <span className="font-medium">{item.name}</span>
-                        </li>
+                    {menuDashboard.map((item, idx) => (
+                    <ItemMenu key={idx} name={item.name} icon={item.icon} link={item.link}/>
                     ))}
                 </ul>
             </section>
@@ -38,14 +34,8 @@ export default function MenuSideBar() {
                     Analítico
                 </h2>
                 <ul className="space-y-2">
-                    {menuAnalitico.map((item) => (
-                        <li
-                            key={item.name}
-                            className="flex items-center gap-3 px-4 py-2 rounded-lg hover:bg-gray-800 cursor-pointer transition-colors duration-200"
-                        >
-                            {item.icon}
-                            <span className="font-medium">{item.name}</span>
-                        </li>
+                    {menuAnalitico.map((item, idx) => (
+                    <ItemMenu key={idx} name={item.name} icon={item.icon} link={item.link}/>
                     ))}
                 </ul>
             </section>
