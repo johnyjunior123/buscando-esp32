@@ -18,7 +18,7 @@ export default function RootLayout({
   return (
     <html lang="pt-br">
       <body
-        className={`${montserrat.className} ${openSans.className} antialiased`}
+        className={`flex ${montserrat.className} ${openSans.className} antialiased`}
       >
         <MenuSideBar />
         {children}
