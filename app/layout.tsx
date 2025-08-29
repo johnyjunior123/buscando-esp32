@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import { Montserrat, Open_Sans } from 'next/font/google';
+import MenuSideBar from "@/components/menu";
 
 const montserrat = Montserrat({ subsets: ['latin'], weight: ['400', '700'] })
 const openSans = Open_Sans({ subsets: ['latin'], weight: ['400', '700'] })
@@ -19,6 +20,7 @@ export default function RootLayout({
       <body
         className={`${montserrat.className} ${openSans.className} antialiased`}
       >
+        <MenuSideBar />
         {children}
       </body>
     </html>
