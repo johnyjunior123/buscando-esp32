@@ -1,20 +1,17 @@
 'use client'
 import EstatisticasTotalVisitantes from "@/components/estatistica/estatistica-total-visitantes";
 import GraficoBarrasTotais from "@/components/estatistica/grafico-barras-totais";
+import { FiltroPorData } from "@/components/filtros/filtro-por-data";
 import { getPassagensTotais } from "@/services/passagens-api";
 import { PassagensTotais } from "@/types/passagem-total";
+import { getInicioEFimDoMes, meses } from "@/utils/help-datas";
 import { useEffect, useState } from "react";
+import "react-datepicker/dist/react-datepicker.css";
 
 type DadosGerais = {
     oportunidadesTotais: number
     unicos: number
 }
-
-const meses = [
-    "Janeiro", "Fevereiro", "Março", "Abril", "Maio", "Junho",
-    "Julho", "Agosto", "Setembro", "Outubro", "Novembro", "Dezembro"
-];
-
 
 export default function OcupacaoPage() {
     const [passagensTotais, setPassagensTotais] = useState<PassagensTotais>()
@@ -25,26 +22,46 @@ export default function OcupacaoPage() {
     const [inicio, setInicio] = useState(new Date());
     const [fim, setFim] = useState(new Date());
 
+    const tratarDadosGerais = (dados: PassagensTotais | undefined) => {
+        if (dados) {
+            setPassagensTotais(dados)
+            let oportunidades = 0
+            let unicos = 0
+            dados.locais.forEach(element => {
+                oportunidades += element.oportunidades
+                unicos += element.unicos
+            })
+            setDadosGerais({ oportunidadesTotais: oportunidades, unicos })
+        }
+    }
+
+    const onChangeInicio = (inicio: Date | null) => {
+        if (!inicio) return
+        setInicio(inicio)
+        getPassagensTotais(inicio, fim).then(data => { tratarDadosGerais(data) })
+    }
+
+    const onChangeFim = (fim: Date | null) => {
+        if (!fim) return
+        setFim(fim)
+        getPassagensTotais(inicio, fim).then(data => { tratarDadosGerais(data) })
+    }
+
+    const onChangeMes = (event: React.ChangeEvent<HTMLSelectElement>) => {
+        if (!event.target.value) return
+        setMesSelecionado(event.target.value)
+        const range = getInicioEFimDoMes(event.target.value, new Date().getFullYear())
+        getPassagensTotais(range.inicio, range.fim).then(data => { tratarDadosGerais(data) })
+    }
+
     useEffect(() => {
         if (!inicio || !fim) return;
-
-        getPassagensTotais(inicio, fim).then(data => {
-            if (data) {
-                setPassagensTotais(data)
-                let oportunidades = 0
-                let unicos = 0
-                data.locais.forEach(element => {
-                    oportunidades += element.oportunidades
-                    unicos += element.unicos
-                })
-                setDadosGerais({ oportunidadesTotais: oportunidades, unicos })
-            }
-        })
-    }, [inicio, fim, mesSelecionado])
+        getPassagensTotais(inicio, fim).then(data => { tratarDadosGerais(data) })
+    }, [])
 
     return (
         <main className="flex p-6 gap-6 items-center flex-1 flex-col bg-black">
-            <h1 className="text-4xl text-white mb-8">Painel de Estatísticas</h1>
+            <h1 className="text-4xl text-white mb-8 font-bold">Painel de Estatísticas</h1>
             <section className="flex items-center w-[90%] flex-col md:flex-row gap-6 text-white">
                 <section className="flex gap-6 items-center">
                     <label className="flex items-center gap-2 cursor-pointer select-none">
@@ -57,7 +74,7 @@ export default function OcupacaoPage() {
                             }}
                             className="w-5 h-5 accent-blue-500 rounded focus:ring-2 focus:ring-blue-400 bg-gray-900 border-gray-600"
                         />
-                        <span className="text-white font-medium">Usar Mês</span>
+                        <span className="text-white font-medium">Por Mês</span>
                     </label>
                     <label className="flex items-center gap-2 cursor-pointer select-none">
                         <input
@@ -69,7 +86,7 @@ export default function OcupacaoPage() {
                             }}
                             className="w-5 h-5 accent-blue-500 rounded focus:ring-2 focus:ring-blue-400 bg-gray-900 border-gray-600"
                         />
-                        <span className="text-white font-medium">Usar Data</span>
+                        <span className="text-white font-medium">Por Data</span>
                     </label>
                 </section>
 
@@ -78,7 +95,7 @@ export default function OcupacaoPage() {
                         <label className="font-semibold mb-1">Selecione o mês</label>
                         <select
                             value={mesSelecionado}
-                            onChange={(e) => setMesSelecionado(e.target.value)}
+                            onChange={onChangeMes}
                             className="p-2 rounded-md border border-gray-600 bg-gray-800 text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
                         >
                             <option value="">-- Selecione --</option>
@@ -90,26 +107,7 @@ export default function OcupacaoPage() {
                 )}
 
                 {useData && (
-                    <section className="flex gap-4 flex-col md:flex-row">
-                        <div className="flex flex-col">
-                            <label className="font-semibold mb-1">Data Início</label>
-                            <input
-                                type="date"
-                                value={inicio.toISOString().split("T")[0]}
-                                onChange={(e) => setInicio(new Date(e.target.value))}
-                                className="p-2 rounded-md border border-gray-600 bg-gray-800 text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
-                            />
-                        </div>
-                        <div className="flex flex-col">
-                            <label className="font-semibold mb-1">Data Fim</label>
-                            <input
-                                type="date"
-                                value={fim.toISOString().split("T")[0]}
-                                onChange={(e) => setFim(new Date(e.target.value))}
-                                className="p-2 rounded-md border border-gray-600 bg-gray-800 text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
-                            />
-                        </div>
-                    </section>
+                    <FiltroPorData fim={fim} inicio={inicio} onChangeInicio={onChangeInicio} onChangeFim={onChangeFim} />
                 )}
             </section>
             <EstatisticasTotalVisitantes

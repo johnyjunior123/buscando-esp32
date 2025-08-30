@@ -15,12 +15,17 @@ export async function getPassagensTotais(inicio: Date, fim: Date): Promise<Passa
                 fim: fimISO
             }
         })
+        if (data.locais) {
+            return {
+                inicio: data.inicio, fim: data.fim, locais: data.locais.map(element => {
+                    element.oportunidades = Number(element.oportunidades)
+                    element.unicos = Number(element.unicos)
+                    return element
+                })
+            }
+        }
         return {
-            inicio: data.inicio, fim: data.fim, locais: data.locais.map(element => {
-                element.oportunidades = Number(element.oportunidades)
-                element.unicos = Number(element.unicos)
-                return element
-            })
+            inicio: data.inicio, fim: data.fim, locais: []
         }
     } catch (e) {
         console.error(e)
