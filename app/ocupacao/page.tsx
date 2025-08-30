@@ -90,7 +90,7 @@ export default function OcupacaoPage() {
 
 
     return (
-        <main className="flex p-6 gap-6 items-center flex-1 flex-col bg-black">
+        <main className="flex flex-1 p-6 gap-6 items-center flex-1 flex-col bg-black">
             <h1 className="text-4xl text-white mb-8 font-bold">Painel de Estatísticas</h1>
             <section className="flex items-center w-[90%] flex-col md:flex-row gap-6 text-white">
                 <section className="flex gap-6 items-center">

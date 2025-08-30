@@ -44,9 +44,8 @@ export default function GraficoBarras({ dados }: GraficoBarrasTotaisProps) {
                         labelStyle={{ color: "#fff" }}
                     />
                     <Legend wrapperStyle={{ color: "#fff" }} />
-                    <Bar name="Oportunidades" dataKey="oportunidades" fill="#3b82f6" radius={[4, 4, 0, 0]} />
+                    <Bar name="Passagens" dataKey="oportunidades" fill="#3b82f6" radius={[4, 4, 0, 0]} />
                     <Bar name="Visitantes Únicos" dataKey="unicos" fill="#10b981" radius={[4, 4, 0, 0]} />
-
                     <Line
                         name="Média"
                         type="monotone"

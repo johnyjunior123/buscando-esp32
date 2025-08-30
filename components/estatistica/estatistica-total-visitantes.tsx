@@ -27,7 +27,7 @@ export default function EstatisticasTotalVisitantes({
             <section className="flex flex-col items-center flex-1 p-4 text-xs">
                 <div className="flex items-center gap-2 mb-2">
                     <Briefcase className="w-5 h-5 text-blue-400" />
-                    <h2 className="text-blue-400 font-bold">Oportunidades</h2>
+                    <h2 className="text-blue-400 font-bold">Passagens</h2>
                 </div>
                 <p className="text-5xl font-extrabold drop-shadow-md">{oportunidades}</p>
                 <p className={`mt-2 text-lg ${crescimentoOportunidades > 0 ? 'text-green-400' : 'text-red-400'}`}>
