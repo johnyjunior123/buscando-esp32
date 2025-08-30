@@ -17,6 +17,7 @@ export default function OcupacaoPage() {
     const [passagensTotais, setPassagensTotais] = useState<PassagensTotais>()
     const [useMes, setUseMes] = useState<boolean>(false)
     const [useData, setUseData] = useState<boolean>(true)
+    const [useAgora, setUseAgora] = useState<boolean>(false)
     const [mesSelecionado, setMesSelecionado] = useState<string>()
     const [dadosGerais, setDadosGerais] = useState<DadosGerais>({ oportunidadesTotais: 0, unicos: 0 })
     const [inicio, setInicio] = useState(new Date());
@@ -35,15 +36,25 @@ export default function OcupacaoPage() {
         }
     }
 
+    const onChangeAgora = () => {
+        const agora = new Date();
+        const ha5minutos = new Date(new Date().setMinutes((agora.getMinutes() - 5))) // Subtrai 5 minutos
+        getPassagensTotais(ha5minutos, agora).then(data => { tratarDadosGerais(data) })
+    }
+
     const onChangeInicio = (inicio: Date | null) => {
         if (!inicio) return
+        inicio.setHours(0, 0, 0, 0);
         setInicio(inicio)
+        console.log(inicio)
         getPassagensTotais(inicio, fim).then(data => { tratarDadosGerais(data) })
     }
 
     const onChangeFim = (fim: Date | null) => {
         if (!fim) return
+        fim.setHours(23, 59, 59, 999);
         setFim(fim)
+        console.log(fim)
         getPassagensTotais(inicio, fim).then(data => { tratarDadosGerais(data) })
     }
 
@@ -56,8 +67,27 @@ export default function OcupacaoPage() {
 
     useEffect(() => {
         if (!inicio || !fim) return;
+        inicio.setHours(0, 0, 0, 0);
+        fim.setHours(23, 59, 59, 999);
+        console.log(inicio)
+        console.log(fim)
         getPassagensTotais(inicio, fim).then(data => { tratarDadosGerais(data) })
     }, [])
+
+    useEffect(() => {
+        let interval: NodeJS.Timeout | null = null;
+        if (useAgora) {
+            interval = setInterval(() => {
+                onChangeAgora();
+            }, 10000);
+        } else {
+            if (interval) clearInterval(interval);
+        }
+        return () => {
+            if (interval) clearInterval(interval);
+        };
+    }, [useAgora]);
+
 
     return (
         <main className="flex p-6 gap-6 items-center flex-1 flex-col bg-black">
@@ -69,8 +99,9 @@ export default function OcupacaoPage() {
                             type="checkbox"
                             checked={useMes}
                             onChange={() => {
-                                setUseData(!useData)
-                                setUseMes(!useMes)
+                                setUseAgora(false)
+                                setUseData(false)
+                                setUseMes(true)
                             }}
                             className="w-5 h-5 accent-blue-500 rounded focus:ring-2 focus:ring-blue-400 bg-gray-900 border-gray-600"
                         />
@@ -81,12 +112,28 @@ export default function OcupacaoPage() {
                             type="checkbox"
                             checked={useData}
                             onChange={() => {
-                                setUseData(!useData)
-                                setUseMes(!useMes)
+                                setUseAgora(false)
+                                setUseMes(false)
+                                setUseData(true)
+                                getPassagensTotais(inicio, fim).then(data => { tratarDadosGerais(data) })
                             }}
                             className="w-5 h-5 accent-blue-500 rounded focus:ring-2 focus:ring-blue-400 bg-gray-900 border-gray-600"
                         />
                         <span className="text-white font-medium">Por Data</span>
+                    </label>
+                    <label className="flex items-center gap-2 cursor-pointer select-none">
+                        <input
+                            type="checkbox"
+                            checked={useAgora}
+                            onChange={() => {
+                                setUseData(false)
+                                setUseMes(false)
+                                setUseAgora(true)
+                                onChangeAgora()
+                            }}
+                            className="w-5 h-5 accent-blue-500 rounded focus:ring-2 focus:ring-blue-400 bg-gray-900 border-gray-600"
+                        />
+                        <span className="text-white font-medium">Agora</span>
                     </label>
                 </section>
 

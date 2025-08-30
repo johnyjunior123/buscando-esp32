@@ -1,10 +1,8 @@
-'use client';
-
 import { Construction, XCircle } from 'lucide-react';
 
 export default function NotFound() {
     return (
-        <main className="flex flex-col items-center justify-center min-h-screen bg-black text-white p-6">
+        <main className="flex flex-1 flex-col items-center justify-center min-h-screen bg-black text-white p-6">
             <XCircle className="w-20 h-20 text-red-500 mb-6 animate-bounce" />
             <h1 className="text-6xl font-bold mb-4">404</h1>
             <p className="text-2xl mb-6">Pagina não encontrada.</p>
