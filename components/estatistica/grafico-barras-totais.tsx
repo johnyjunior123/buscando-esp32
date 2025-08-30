@@ -25,7 +25,7 @@ type GraficoBarrasTotaisProps = {
 export default function GraficoBarras({ dados }: GraficoBarrasTotaisProps) {
     const dadosComMedia = dados.map((d) => ({
         ...d,
-        media: (d.oportunidades + d.unicos) / 2,
+        media: (Number(d.oportunidades) + Number(d.unicos)) / 2,
     }));
 
     return (
