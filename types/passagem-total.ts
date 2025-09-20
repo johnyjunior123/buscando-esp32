@@ -1,8 +1,12 @@
 import { PassagemPorLocal } from "./passagem-por-local"
 
 export type PassagensTotais = {
-    inicio: Date
-    fim: Date
+    inicio?: Date
+    fim?: Date
+    locais: PassagemPorLocal[]
+}
+
+export type PassagensAgora = {
     locais: PassagemPorLocal[]
 }
 
