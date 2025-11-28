@@ -17,7 +17,7 @@ export default function LoginPage() {
     <main className="w-full h-screen flex bg-black text-white">
       <section className="hidden md:flex w-1/2 h-full relative">
         <Image
-          src="/monitoramento.jpg"
+          src="https://pub-28df11c92fbd4e4fb6da4ea983d8de1c.r2.dev/monitoramento.jpg"
           alt="Penedo Monitoramento"
           fill
           className="object-cover"
