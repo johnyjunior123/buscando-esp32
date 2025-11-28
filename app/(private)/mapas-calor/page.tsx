@@ -1,7 +1,7 @@
 'use client'
 
+import { pontosPenedo } from "@/utils/constants/pontos"
 import dynamic from "next/dynamic"
-import { pontosPenedo } from "@/mock/teste"
 
 const MapaCalor = dynamic(
     () =>
