@@ -17,9 +17,11 @@ export default function LoginPage() {
     <main className="w-full h-screen flex bg-black text-white">
       <section className="hidden md:flex w-1/2 h-full relative">
         <Image
-          src="/teste.jpg"
+          src="/monitoramento.jpg"
           alt="Penedo Monitoramento"
           fill
+          className="object-cover"
+          priority
         />
       </section>
       <section className="w-full md:w-1/2 h-full flex items-center justify-center p-10">
