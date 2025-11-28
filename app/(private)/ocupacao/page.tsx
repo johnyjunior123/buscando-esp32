@@ -38,7 +38,7 @@ export default function OcupacaoPage() {
 
     const onChangeAgora = () => {
         const agora = new Date();
-        const ha5minutos = new Date(new Date().setMinutes((agora.getMinutes() - 5))) // Subtrai 5 minutos
+        const ha5minutos = new Date(new Date().setMinutes((agora.getMinutes() - 5)))
         getPassagensTotais(ha5minutos, agora).then(data => { tratarDadosGerais(data) })
     }
 
@@ -91,48 +91,51 @@ export default function OcupacaoPage() {
         <main className="flex flex-1 p-6 gap-6 items-center flex-1 flex-col bg-black">
             <h1 className="text-4xl text-white mb-8 font-bold">Painel de Estatísticas</h1>
             <section className="flex items-center w-[90%] flex-col md:flex-row gap-6 text-white">
-                <section className="flex gap-6 items-center">
-                    <label className="flex items-center gap-2 cursor-pointer select-none">
-                        <input
-                            type="checkbox"
-                            checked={useMes}
-                            onChange={() => {
-                                setUseAgora(false)
-                                setUseData(false)
-                                setUseMes(true)
-                            }}
-                            className="w-5 h-5 accent-blue-500 rounded focus:ring-2 focus:ring-blue-400 bg-gray-900 border-gray-600"
-                        />
-                        <span className="text-white font-medium">Por Mês</span>
-                    </label>
-                    <label className="flex items-center gap-2 cursor-pointer select-none">
-                        <input
-                            type="checkbox"
-                            checked={useData}
-                            onChange={() => {
-                                setUseAgora(false)
-                                setUseMes(false)
-                                setUseData(true)
-                                getPassagensTotais(inicio, fim).then(data => { tratarDadosGerais(data) })
-                            }}
-                            className="w-5 h-5 accent-blue-500 rounded focus:ring-2 focus:ring-blue-400 bg-gray-900 border-gray-600"
-                        />
-                        <span className="text-white font-medium">Por Data</span>
-                    </label>
-                    <label className="flex items-center gap-2 cursor-pointer select-none">
-                        <input
-                            type="checkbox"
-                            checked={useAgora}
-                            onChange={() => {
-                                setUseData(false)
-                                setUseMes(false)
-                                setUseAgora(true)
-                                onChangeAgora()
-                            }}
-                            className="w-5 h-5 accent-blue-500 rounded focus:ring-2 focus:ring-blue-400 bg-gray-900 border-gray-600"
-                        />
-                        <span className="text-white font-medium">Agora</span>
-                    </label>
+                <section className="flex gap-4 items-center">
+                    <button
+                        className={`px-4 py-2 rounded-lg border 
+            ${useMes
+                                ? "bg-blue-600 border-blue-400 text-white"
+                                : "bg-gray-800 border-gray-600 text-gray-300 hover:bg-gray-700"
+                            }`}
+                        onClick={() => {
+                            setUseMes(true)
+                            setUseData(false)
+                            setUseAgora(false)
+                        }}
+                    >
+                        Por Mês
+                    </button>
+                    <button
+                        className={`px-4 py-2 rounded-lg border
+            ${useData
+                                ? "bg-blue-600 border-blue-400 text-white"
+                                : "bg-gray-800 border-gray-600 text-gray-300 hover:bg-gray-700"
+                            }`}
+                        onClick={() => {
+                            setUseMes(false)
+                            setUseData(true)
+                            setUseAgora(false)
+                            getPassagensTotais(inicio, fim).then(data => { tratarDadosGerais(data) })
+                        }}
+                    >
+                        Por Data
+                    </button>
+                    <button
+                        className={`px-4 py-2 rounded-lg border
+            ${useAgora
+                                ? "bg-blue-600 border-blue-400 text-white"
+                                : "bg-gray-800 border-gray-600 text-gray-300 hover:bg-gray-700"
+                            }`}
+                        onClick={() => {
+                            setUseMes(false)
+                            setUseData(false)
+                            setUseAgora(true)
+                            onChangeAgora()
+                        }}
+                    >
+                        Agora
+                    </button>
                 </section>
 
                 {useMes && (
