@@ -2,7 +2,7 @@
 import EstatisticasTotalVisitantes from "@/components/estatistica/estatistica-total-visitantes";
 import GraficoBarrasTotais from "@/components/estatistica/grafico-barras-totais";
 import { FiltroPorData } from "@/components/filtros/filtro-por-data";
-import { getPassagensAgora, getPassagensTotais } from "@/services/passagens-api";
+import { getPassagensTotais } from "@/services/passagens-api";
 import { PassagensTotais } from "@/types/passagem-total";
 import { getInicioEFimDoMes, meses } from "@/utils/help-datas";
 import { useEffect, useState } from "react";
@@ -39,7 +39,7 @@ export default function OcupacaoPage() {
     const onChangeAgora = () => {
         const agora = new Date();
         const ha5minutos = new Date(new Date().setMinutes((agora.getMinutes() - 5))) // Subtrai 5 minutos
-        getPassagensAgora().then(data => { tratarDadosGerais(data) })
+        getPassagensTotais(ha5minutos, agora).then(data => { tratarDadosGerais(data) })
     }
 
     const onChangeInicio = (inicio: Date | null) => {

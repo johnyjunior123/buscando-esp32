@@ -1,4 +1,4 @@
-import { PassagensAgora, PassagensTotais } from "@/types/passagem-total";
+import { PassagensAgora, PassagensTotais, PassagensTotaisProxy } from "@/types/passagem-total";
 import { api } from "./api-axios";
 import { AxiosResponse } from "axios";
 
@@ -6,15 +6,16 @@ export async function getPassagensTotais(inicio: Date, fim: Date): Promise<Passa
     const inicioFormatted = inicio.toISOString();
     const fimFormatted = fim.toISOString();
     try {
-        const { data }: AxiosResponse<PassagensTotais> = await api.get('/passagens-por-periodo', {
+        const { data }: AxiosResponse<PassagensTotaisProxy> = await api.get('/detection/all', {
             params: {
-                inicio: inicioFormatted,
-                fim: fimFormatted
+                start: inicioFormatted,
+                end: fimFormatted
             }
         })
-        if (data.locais) {
+        if (data.locations) {
             return {
-                inicio: data.inicio, fim: data.fim, locais: data.locais.map(element => {
+                inicio: data.start, fim: data.end, locais: data.locations.map(element => {
+                    element.local
                     element.oportunidades = Number(element.oportunidades)
                     element.unicos = Number(element.unicos)
                     return element
@@ -22,7 +23,7 @@ export async function getPassagensTotais(inicio: Date, fim: Date): Promise<Passa
             }
         }
         return {
-            inicio: data.inicio, fim: data.fim, locais: []
+            inicio: data.start, fim: data.end, locais: []
         }
     } catch (e) {
         console.log(e)

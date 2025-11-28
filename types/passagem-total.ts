@@ -1,4 +1,10 @@
-import { PassagemPorLocal } from "./passagem-por-local"
+import { PassagemPorLocal, PassagemPorLocalProxy } from "./passagem-por-local"
+
+export type PassagensTotaisProxy = {
+    start?: Date
+    end?: Date
+    locations: PassagemPorLocalProxy[]
+}
 
 export type PassagensTotais = {
     inicio?: Date

@@ -1,0 +1,1 @@
+export const ALERT_TIME = 2000;
