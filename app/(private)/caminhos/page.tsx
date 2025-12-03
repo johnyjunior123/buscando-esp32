@@ -1,20 +1,70 @@
-import { Construction, XCircle } from 'lucide-react';
+'use client'
 
-export default function NotFound() {
+import PathsGraph from '@/components/estatistica/grafico-graph';
+import { api } from '@/services/api-axios';
+import { useEffect, useState } from 'react';
+
+interface NodeType { id: number; label: string }
+interface LinkType { source: string; target: string; value: number }
+
+export default function CaminhosPage() {
+    const [startDate, setStartDate] = useState<string>(new Date().toISOString());
+    const [endDate, setEndDate] = useState<string>(new Date().toISOString());
+    const [nodes, setNodes] = useState<NodeType[]>([])
+    const [links, setLinks] = useState<LinkType[]>([])
+
+    const getLinks = async (start: string, end: string): Promise<LinkType[]> => {
+        const res = await api.get('/links', {
+            params: {
+                start,
+                end
+            }
+        })
+        return res.data
+    }
+
+    useEffect(() => {
+        api.get('/locations').then(res => {
+            const locations = res.data as string[]
+            const newNodes = locations.map((element, idx) => {
+                return {
+                    id: idx,
+                    label: element
+                } as NodeType
+            })
+            setNodes(newNodes)
+        })
+    }, [])
+
+    useEffect(() => {
+        getLinks(startDate, endDate).then(data => {
+            setLinks(data)
+        })
+    }, [startDate, endDate])
+
     return (
-        <main className="flex flex-1 flex-col items-center justify-center min-h-screen bg-black text-white p-6">
-            <XCircle className="w-20 h-20 text-red-500 mb-6 animate-bounce" />
-            <h1 className="text-6xl font-bold mb-4">404</h1>
-            <p className="text-2xl mb-6">Pagina não encontrada.</p>
-
-            <div className="flex items-center gap-3 text-yellow-400 text-xl">
-                <Construction className="w-8 h-8 animate-pulse" />
-                <span>Site ainda em construção!</span>
+        <main className="flex flex-col flex-1 items-center p-6 bg-black text-white">
+            <div className="flex flex-col md:flex-row gap-4 mb-6 max-w-xl">
+                <div className="flex flex-col">
+                    <label className="text-sm mb-1">Data Início</label>
+                    <input
+                        type="date"
+                        value={startDate}
+                        onChange={e => setStartDate(e.target.value)}
+                        className="p-2 rounded-md bg-gray-800 border border-gray-700 text-white"
+                    />
+                </div>
+                <div className="flex flex-col">
+                    <label className="text-sm mb-1">Data Fim</label>
+                    <input
+                        type="date"
+                        value={endDate}
+                        onChange={e => setEndDate(e.target.value)}
+                        className="p-2 rounded-md bg-gray-800 border border-gray-700 text-white"
+                    />
+                </div>
             </div>
-
-            <p className="mt-8 text-gray-400 text-sm">
-                Volte para a página inicial ou confira outras seções.
-            </p>
+            <PathsGraph nodes={nodes} links={links} />
         </main>
     );
 }
