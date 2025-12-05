@@ -1,4 +1,3 @@
-
 export const pontosPenedo = [
     {
         lat: -10.290619094731156,

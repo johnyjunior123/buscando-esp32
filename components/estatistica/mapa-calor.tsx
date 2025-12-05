@@ -5,7 +5,7 @@ import "leaflet/dist/leaflet.css"
 interface PontoMapa {
     lat: number
     lng: number
-    visitasUnicas: number
+    unicos: number
     oportunidades: number
 }
 
@@ -30,8 +30,8 @@ export function MapaCalor({ pontos }: MapaCalorProps) {
                 {pontos.map((ponto, idx) => (
                     <Circle
                         key={idx}
-                        center={[ponto.lat, ponto.lng]}
-                        radius={20}
+                        center={[ponto.lat ? ponto.lat : -10.290619094731156, ponto.lng ? ponto.lng : -36.58656076442575]}
+                        radius={10}
                         pathOptions={{
                             color: "red",
                             fillColor: "orange",
@@ -40,7 +40,7 @@ export function MapaCalor({ pontos }: MapaCalorProps) {
                     >
                         <Popup>
                             <div className="text-black">
-                                <p><strong>Visitas Únicas:</strong> {ponto.visitasUnicas}</p>
+                                <p><strong>Visitas Únicas:</strong> {ponto.unicos}</p>
                                 <p><strong>Oportunidades:</strong> {ponto.oportunidades}</p>
                             </div>
                         </Popup>
