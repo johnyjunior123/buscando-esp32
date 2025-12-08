@@ -36,7 +36,7 @@ type MetricasResumo = {
 export default function ZonasPage() {
     const [dataInicio, setDataInicio] = useState<string>("")
     const [dataFim, setDataFim] = useState<string>("")
-    const [zonas, setZonas] = useState<Zona[]>(['Ectron', 'Zhi', 'Lhi', 'For', 'Night'])
+    const [zonas, setZonas] = useState<Zona[]>([])
     const [zonasSelecionadas, setZonasSelecionadas] = useState<string[]>([])
     const [opcoes, setOpcoes] = useState<OpcaoMetricas>({
         totalOpp: false,
