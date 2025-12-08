@@ -97,8 +97,6 @@ export default function ZonasPage() {
 
     return (
         <main className="flex flex-1 flex-col min-h-screen p-6 gap-6 bg-gray-900 text-white">
-
-            {/* Seletor de datas e métricas */}
             <section className="flex w-full flex-col bg-gray-800 p-4 rounded-md border border-gray-700">
                 <div className="flex gap-2 mb-4">
                     <Label className="text-gray-300">Data Início</Label>
@@ -121,7 +119,7 @@ export default function ZonasPage() {
                 <div className="flex flex-wrap gap-3">
                     {[
                         { key: "totalOpp", label: "Total de oportunidades" },
-                        { key: "otherOpp", label: "Other Opp" },
+                        { key: "otherOpp", label: "Outras Op." },
                         { key: "recurrentOpp", label: "Oportunidades recorrentes" },
                         { key: "uniqueVisitors", label: "Visitantes únicos" },
                         { key: "avgPresenceTime", label: "Média de tempo de presença" },
@@ -162,27 +160,27 @@ export default function ZonasPage() {
             <section className="flex flex-wrap gap-4">
                 {opcoes.totalOpp && (
                     <div className="bg-gray-700 p-4 rounded-md flex-1 text-center">
-                        Total Opp: {metricasResumo.totalOpp ?? 0}
+                        Total Op.: {metricasResumo.totalOpp ?? 0}
                     </div>
                 )}
                 {opcoes.otherOpp && (
                     <div className="bg-gray-700 p-4 rounded-md flex-1 text-center">
-                        Other Opp: {metricasResumo.otherOpp ?? 0}
+                        Outras Op.: {metricasResumo.otherOpp ?? 0}
                     </div>
                 )}
                 {opcoes.recurrentOpp && (
                     <div className="bg-gray-700 p-4 rounded-md flex-1 text-center">
-                        Recurrent Opp: {metricasResumo.recurrentOpp ?? 0}
+                        Op. Recorrentes: {metricasResumo.recurrentOpp ?? 0}
                     </div>
                 )}
                 {opcoes.uniqueVisitors && (
                     <div className="bg-gray-700 p-4 rounded-md flex-1 text-center">
-                        Unique Visitors: {metricasResumo.uniqueVisitors ?? 0}
+                        Visitantes Únicos: {metricasResumo.uniqueVisitors ?? 0}
                     </div>
                 )}
                 {opcoes.avgPresenceTime && (
                     <div className="bg-gray-700 p-4 rounded-md flex-1 text-center">
-                        Avg Time: {metricasResumo.avgPresenceTime ?? 0} hrs
+                        Média de Tempo: {metricasResumo.avgPresenceTime ?? 0} hrs
                     </div>
                 )}
             </section>
